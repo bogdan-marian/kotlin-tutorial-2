@@ -43,11 +43,11 @@ class MainActivity : AppCompatActivity() {
         val buttonDot: Button = findViewById(R.id.buttonDot)
 
         // Operation buttons
-        val buttonEquals: Button = findViewById<Button>(R.id.buttonDot)
-        val buttonDivide: Button = findViewById<Button>(R.id.buttonDivide)
-        val buttonMultiply: Button = findViewById<Button>(R.id.buttonMultiply)
-        val buttonMinus: Button = findViewById<Button>(R.id.buttonMinus)
-        val buttonPlus: Button = findViewById<Button>(R.id.buttonPlus)
+        val buttonEquals = findViewById<Button>(R.id.buttonDot)
+        val buttonDivide = findViewById<Button>(R.id.buttonDivide)
+        val buttonMultiply = findViewById<Button>(R.id.buttonMultiply)
+        val buttonMinus = findViewById<Button>(R.id.buttonMinus)
+        val buttonPlus = findViewById<Button>(R.id.buttonPlus)
 
         val listener = View.OnClickListener { v ->
             val b = v as Button
@@ -84,6 +84,29 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun performOperation(value: String, operation: String) {
-        displayOperation.text = operation
+        if (operand1 == null) {
+            operand1 = value.toDouble()
+        } else {
+            operand2 = value.toDouble()
+
+            if (pendingOperation == "=") {
+                pendingOperation = operation
+            }
+
+            when (pendingOperation) {
+                "=" -> operand1 = operand2
+                "/" -> if (operand2 == 0.0) {
+                    operand1 = Double.NaN // handle attempt to devide by zero
+                } else {
+                    operand1 = operand1!! / operand2
+                }
+                "*" -> operand1 = operand1!! * operand2
+                "-" -> operand1 = operand1!! - operand2
+                "+" -> operand1 = operand1!! + operand2
+            }
+        }
+
+        result.setText(operand1.toString())
+        newNumber.setText("")
     }
 }
