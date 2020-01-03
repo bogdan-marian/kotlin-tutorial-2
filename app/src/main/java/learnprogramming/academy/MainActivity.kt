@@ -7,7 +7,7 @@ import android.widget.EditText
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 
-private const val TAG = "MyMainActivity"
+//private const val TAG = "MyMainActivity"
 
 class MainActivity : AppCompatActivity() {
 
@@ -97,10 +97,10 @@ class MainActivity : AppCompatActivity() {
 
             when (pendingOperation) {
                 "=" -> operand1 = operand2
-                "/" -> if (operand2 == 0.0) {
-                    operand1 = Double.NaN   // handle attempt to divide by zero
+                "/" -> operand1 = if (operand2 == 0.0) {
+                    Double.NaN   // handle attempt to divide by zero
                 } else {
-                    operand1 = operand1!! / operand2
+                    operand1!! / operand2
                 }
                 "*" -> operand1 = operand1!! * operand2
                 "-" -> operand1 = operand1!! - operand2
