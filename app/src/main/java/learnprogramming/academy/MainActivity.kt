@@ -26,10 +26,11 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+
         result = findViewById(R.id.result)
         newNumber = findViewById(R.id.newNumber)
 
-        //Data input buttons
+        // Data input buttons
         val button0: Button = findViewById(R.id.button0)
         val button1: Button = findViewById(R.id.button1)
         val button2: Button = findViewById(R.id.button2)
@@ -43,7 +44,7 @@ class MainActivity : AppCompatActivity() {
         val buttonDot: Button = findViewById(R.id.buttonDot)
 
         // Operation buttons
-        val buttonEquals = findViewById<Button>(R.id.buttonDot)
+        val buttonEquals = findViewById<Button>(R.id.buttonEquals)
         val buttonDivide = findViewById<Button>(R.id.buttonDivide)
         val buttonMultiply = findViewById<Button>(R.id.buttonMultiply)
         val buttonMinus = findViewById<Button>(R.id.buttonMinus)
@@ -81,6 +82,7 @@ class MainActivity : AppCompatActivity() {
         buttonMultiply.setOnClickListener(opListener)
         buttonMinus.setOnClickListener(opListener)
         buttonPlus.setOnClickListener(opListener)
+
     }
 
     private fun performOperation(value: String, operation: String) {
@@ -96,7 +98,7 @@ class MainActivity : AppCompatActivity() {
             when (pendingOperation) {
                 "=" -> operand1 = operand2
                 "/" -> if (operand2 == 0.0) {
-                    operand1 = Double.NaN // handle attempt to devide by zero
+                    operand1 = Double.NaN   // handle attempt to divide by zero
                 } else {
                     operand1 = operand1!! / operand2
                 }
@@ -105,7 +107,6 @@ class MainActivity : AppCompatActivity() {
                 "+" -> operand1 = operand1!! + operand2
             }
         }
-
         result.setText(operand1.toString())
         newNumber.setText("")
     }
