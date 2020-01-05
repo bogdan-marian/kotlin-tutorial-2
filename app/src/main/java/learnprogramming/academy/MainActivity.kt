@@ -4,9 +4,7 @@ import android.os.AsyncTask
 import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
-import java.io.BufferedReader
 import java.io.IOException
-import java.io.InputStreamReader
 import java.net.HttpURLConnection
 import java.net.MalformedURLException
 import java.net.URL
@@ -57,17 +55,9 @@ class MainActivity : AppCompatActivity() {
                     Log.d(TAG, "downloadXML: The response code was $response")
 
 
-                    val reader = BufferedReader(InputStreamReader(connection.inputStream))
-
-                    val inputBuffer = CharArray(500)
-                    var charsRead = 0
-                    while (charsRead >= 0) {
-                        charsRead = reader.read(inputBuffer)
-                        if (charsRead > 0) {
-                            xmlResult.append(String(inputBuffer, 0, charsRead))
-                        }
+                    connection.inputStream.buffered().reader().use {
+                        xmlResult.append(it.readText())
                     }
-                    reader.close()
 
                     Log.d(TAG, "Received ${xmlResult.length} bytes")
                     return xmlResult.toString()
@@ -83,6 +73,7 @@ class MainActivity : AppCompatActivity() {
                         }
                         else -> "Unknown error: ${e.message}"
                     }
+                    Log.e(TAG, errorMessage)
                 }
 
                 return "" //If it gets to here, there was a problem with downloadXML
