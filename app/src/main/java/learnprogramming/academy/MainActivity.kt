@@ -56,9 +56,6 @@ class MainActivity : AppCompatActivity() {
                     val response = connection.responseCode
                     Log.d(TAG, "downloadXML: The response code was $response")
 
-//            val inputStream = connection.inputStream
-//            val inputStreamReader = InputStreamReader(inputStream)
-//            val reader = BufferedReader(inputStreamReader)
 
                     val reader = BufferedReader(InputStreamReader(connection.inputStream))
 
@@ -75,16 +72,6 @@ class MainActivity : AppCompatActivity() {
                     Log.d(TAG, "Received ${xmlResult.length} bytes")
                     return xmlResult.toString()
 
-//                } catch (e: MalformedURLException) {
-//                    Log.e(TAG, "downloadXML: Invalid URL ${e.message}")
-//                } catch (e: IOException) {
-//                    Log.e(TAG, "downloadXML: IO Exception reading data: ${e.message}")
-//                } catch (e: SecurityException) {
-//                    e.printStackTrace()
-//                    Log.e(TAG, "downloadXML: Security exception. Needs permissions? ${e.message}")
-//                } catch (e: Exception) {
-//                    Log.e(TAG, "Unknown error: ${e.message}")
-//                }
 
                 } catch (e: Exception) {
                     val errorMessage: String = when (e) {
