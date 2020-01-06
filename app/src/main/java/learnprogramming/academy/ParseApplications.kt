@@ -6,7 +6,6 @@ import org.xmlpull.v1.XmlPullParserFactory
 
 class ParseApplications {
     private val TAG = "ParseApplications"
-
     val applications = ArrayList<FeedEntry>()
 
     fun parse(xmlData: String): Boolean {
@@ -24,8 +23,8 @@ class ParseApplications {
             var currentRecord = FeedEntry()
             while (eventType != XmlPullParser.END_DOCUMENT) {
                 val tagName = xpp.name?.toLowerCase()
-
                 when (eventType) {
+
                     XmlPullParser.START_TAG -> {
                         Log.d(TAG, "parse: Starting tag for " + tagName)
                         if (tagName == "entry") {
@@ -34,6 +33,7 @@ class ParseApplications {
                     }
 
                     XmlPullParser.TEXT -> textValue = xpp.text
+
                     XmlPullParser.END_TAG -> {
                         Log.d(TAG, "parse: Ending tag for " + tagName)
                         if (inEntry) {
@@ -41,11 +41,12 @@ class ParseApplications {
                                 "entry" -> {
                                     applications.add(currentRecord)
                                     inEntry = false
-                                    currentRecord = FeedEntry()
+                                    currentRecord = FeedEntry()   // create a new object
                                 }
+
                                 "name" -> currentRecord.name = textValue
                                 "artist" -> currentRecord.artist = textValue
-                                "releasedate" -> currentRecord.realeaseDate = textValue
+                                "releasedate" -> currentRecord.releaseDate = textValue
                                 "summary" -> currentRecord.summary = textValue
                                 "image" -> currentRecord.imageURL = textValue
                             }
@@ -53,14 +54,15 @@ class ParseApplications {
                     }
                 }
 
-                //nothing else to do
+                // Nothing else to do.
                 eventType = xpp.next()
             }
 
             for (app in applications) {
-                Log.d(TAG, "***************")
+                Log.d(TAG, "*******************")
                 Log.d(TAG, app.toString())
             }
+
         } catch (e: Exception) {
             e.printStackTrace()
             status = false

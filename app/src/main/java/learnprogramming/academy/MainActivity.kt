@@ -14,7 +14,7 @@ import kotlin.properties.Delegates
 class FeedEntry {
     var name: String = ""
     var artist: String = ""
-    var realeaseDate: String = ""
+    var releaseDate: String = ""
     var summary: String = ""
     var imageURL: String = ""
 
@@ -22,17 +22,13 @@ class FeedEntry {
         return """
             name = $name
             artist = $artist
-            realeaseDate = $realeaseDate
-            summary = $summary
+            releaseDate = $releaseDate
             imageURL = $imageURL
-            """.trimIndent()
+        """.trimIndent()
     }
-
-
 }
 
 class MainActivity : AppCompatActivity() {
-
     private val TAG = "MainActivity"
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -41,15 +37,13 @@ class MainActivity : AppCompatActivity() {
 
         Log.d(TAG, "onCreate called")
         val downloadData = DownloadData(this, xmlListView)
-        downloadData.execute("http://ax.itunes.apple.com/WebObjects/MZStoreServices.woa/ws/RSS/topfreeapplications/limit=10/xml")
+        downloadData.execute("http://ax.itunes.apple.com/WebObjects/MZStoreServices.woa/ws/RSS/topfreeapplications/limit=25/xml")
         Log.d(TAG, "onCreate: done")
-
     }
 
     companion object {
         private class DownloadData(context: Context, listView: ListView) :
             AsyncTask<String, Void, String>() {
-
             private val TAG = "DownloadData"
 
             var propContext: Context by Delegates.notNull()
@@ -62,15 +56,16 @@ class MainActivity : AppCompatActivity() {
 
             override fun onPostExecute(result: String) {
                 super.onPostExecute(result)
+//                Log.d(TAG, "onPostExecute: parameter is $result")
                 val parseApplications = ParseApplications()
                 parseApplications.parse(result)
 
-                val arrayAdaptor = ArrayAdapter<FeedEntry>(
+                val arrayAdapter = ArrayAdapter<FeedEntry>(
                     propContext,
                     R.layout.list_item,
                     parseApplications.applications
                 )
-                propListView.adapter = arrayAdaptor
+                propListView.adapter = arrayAdapter
             }
 
             override fun doInBackground(vararg url: String?): String {
@@ -85,9 +80,8 @@ class MainActivity : AppCompatActivity() {
             private fun downloadXML(urlPath: String?): String {
                 return URL(urlPath).readText()
             }
-
         }
-
     }
+
 
 }
