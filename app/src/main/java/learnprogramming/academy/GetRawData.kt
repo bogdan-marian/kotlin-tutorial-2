@@ -15,7 +15,7 @@ class GetRawData : AsyncTask<String, Void, String>() {
     private var downloadStatus = DownloadStatus.IDLE
 
     override fun onPostExecute(result: String?) {
-        super.onPostExecute(result)
+        Log.d(TAG, "onPostExecute called, parameter is $result")
     }
 
     override fun doInBackground(vararg params: String?): String {
@@ -24,6 +24,7 @@ class GetRawData : AsyncTask<String, Void, String>() {
             downloadStatus = DownloadStatus.NOT_INITIALIZED
             return "No URL specified"
         }
+
 
         try {
             downloadStatus = DownloadStatus.OK
