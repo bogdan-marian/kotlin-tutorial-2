@@ -30,5 +30,11 @@ class MainActivity : AppCompatActivity() {
         return true
     }
 
-
+    fun onDownloadComplete(data: String, status: DownloadStatus) {
+        if (status == DownloadStatus.OK) {
+            Log.d(TAG, "onDownloadComplete called, data is $data")
+        } else {
+            Log.d(TAG, "onDownloadComplete failed with status $status. Error message is: $data")
+        }
+    }
 }
