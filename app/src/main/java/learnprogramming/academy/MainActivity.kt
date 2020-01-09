@@ -8,12 +8,13 @@ import kotlinx.android.synthetic.main.activity_main.*
 
 private val TAG = "MainActivity"
 
-class MainActivity : AppCompatActivity(), GetRawData.OnDownloadComplete {
+class MainActivity : AppCompatActivity(),
+    GetRawData.OnDownloadComplete,
+    GetFlickrJsonData.OnDataAvailable {
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         Log.d(TAG, "onCreate called")
-
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         setSupportActionBar(toolbar)
@@ -33,9 +34,23 @@ class MainActivity : AppCompatActivity(), GetRawData.OnDownloadComplete {
 
     override fun onDownloadComplete(data: String, status: DownloadStatus) {
         if (status == DownloadStatus.OK) {
-            Log.d(TAG, "onDownloadComplete called, data is $data")
+            Log.d(TAG, "onDownloadComplete called")
+
+            val getFlickrJsonData = GetFlickrJsonData(this)
+            getFlickrJsonData.execute(data)
         } else {
+            // download failed
             Log.d(TAG, "onDownloadComplete failed with status $status. Error message is: $data")
         }
+    }
+
+    override fun onDataAvailable(data: List<Photo>) {
+        for (photo in data) {
+            Log.d(TAG, ".onDataAvailable photo: $data")
+        }
+    }
+
+    override fun onError(exception: Exception) {
+        Log.d(TAG, ".onError ${exception.message}")
     }
 }
