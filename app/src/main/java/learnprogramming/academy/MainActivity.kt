@@ -1,5 +1,6 @@
 package learnprogramming.academy
 
+import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import android.view.Menu
@@ -19,10 +20,35 @@ class MainActivity : AppCompatActivity(),
         setContentView(R.layout.activity_main)
         setSupportActionBar(toolbar)
 
+        val url = createUri(
+            "https://api.flickr.com/services/feeds/photos_public.gne",
+            "android,oreo",
+            "en-us",
+            true
+        )
         val getRawData = GetRawData(this)
-        getRawData.execute("https://api.flickr.com/services/feeds/photos_public.gne?tags=android,oreo&format=json&nojsoncallback=1")
+        getRawData.execute(url)
 
         Log.d(TAG, "onCreate ends")
+    }
+
+    private fun createUri(
+        baseURL: String,
+        searchCriteria: String,
+        lang: String,
+        matchAll: Boolean
+    ): String {
+        Log.d(TAG, ".createUri starts")
+
+        var uri = Uri.parse(baseURL)
+        var builder = uri.buildUpon()
+        builder = builder.appendQueryParameter("tags", searchCriteria)
+        builder = builder.appendQueryParameter("tagmode", if (matchAll) "ALL" else "ANY")
+        builder = builder.appendQueryParameter("format", "json")
+        builder = builder.appendQueryParameter("nojsoncallback", "1")
+        uri = builder.build()
+
+        return uri.toString()
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
