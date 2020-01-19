@@ -1,6 +1,5 @@
 package learnprogramming.academy
 
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -38,7 +37,7 @@ class FlickrRecyclerViewAdapter(private var photoList: List<Photo>) :
 
     override fun onBindViewHolder(holder: FlickrImageViewHolder, position: Int) {
         val photoItem = photoList[position]
-        Log.d(TAG, ".onBindViewHolder: ${photoItem.title} --> $position")
+//        Log.d(TAG, ".onBindViewHolder: ${photoItem.title} --> $position")
         Picasso.with(holder.thumbmail.context).load(photoItem.image)
             .error(R.drawable.placeholder)
             .placeholder(R.drawable.placeholder)
@@ -50,7 +49,7 @@ class FlickrRecyclerViewAdapter(private var photoList: List<Photo>) :
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FlickrImageViewHolder {
 
-        Log.d(TAG, ".onCreateViewHolder new view requested")
+//        Log.d(TAG, ".onCreateViewHolder new view requested")
         val view = LayoutInflater.from(parent.context).inflate(R.layout.brouse, parent, false)
         return FlickrImageViewHolder(view)
     }
