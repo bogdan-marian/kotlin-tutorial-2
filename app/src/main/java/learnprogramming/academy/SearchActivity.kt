@@ -1,19 +1,17 @@
 package learnprogramming.academy
 
 import android.os.Bundle
-import androidx.appcompat.app.AppCompatActivity
-import com.google.android.material.snackbar.Snackbar
-import kotlinx.android.synthetic.main.activity_search.*
+import android.util.Log
 
-class SearchActivity : AppCompatActivity() {
+class SearchActivity : BaseActivity() {
+
+    private val TAG = "SearchActivity"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_search)
-        setSupportActionBar(toolbar)
-
-
-        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        activateToolbar(true)
+        Log.d(TAG, ".onCreate: ends")
     }
 
 }
